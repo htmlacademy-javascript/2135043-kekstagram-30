@@ -44,6 +44,8 @@ const MESSAGE = [
   'Как можно было поймать такой неудачный момент? ',
 ];
 
+const MAX_COUNT_PHOTO_POST = 25;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -73,8 +75,9 @@ const createComment = () => ({
   avatar: `img/avatar${getRandomInteger(1, 25)}.svg`,
   message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
   name: NAMES[getRandomInteger(0, NAMES.length - 1)],
-
 });
+
+createComment();
 
 const createPhotoPost = () => ({
   id: getRandomPhotoId(),
@@ -84,4 +87,6 @@ const createPhotoPost = () => ({
   comments: getRandomInteger(0, 30),
 });
 
-const PhotoPost = Array.from({ length: 25 }, createPhotoPost);
+const PhotoPost = Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
+
+PhotoPost();
