@@ -77,16 +77,14 @@ const createComment = () => ({
   name: NAMES[getRandomInteger(0, NAMES.length - 1)],
 });
 
-createComment();
-
 const createPhotoPost = () => ({
   id: getRandomPhotoId(),
   url: `photos/${getRandomInteger(1, 6)}.jpg`,
   description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
   likes: getRandomInteger(15, 200),
-  comments: getRandomInteger(0, 30),
+  comments: Array.from({ length: getRandomInteger(0, 30) }, createComment),
 });
 
-const PhotoPost = Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
+const photoPost = Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
 
-PhotoPost();
+photoPost();
