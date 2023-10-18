@@ -45,6 +45,10 @@ const MESSAGE = [
 ];
 
 const MAX_COUNT_PHOTO_POST = 25;
+const MIN_LIKE_COUNT = 15;
+const MAX_LIKE_COUNT = 200;
+const MAX_AVATAR_COUNT = 6;
+const MAX_COUNT_PHOTO = 25;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -72,19 +76,18 @@ const getRandomCommentId = createUniqIdNumber(1, 1000);
 
 const createComment = () => ({
   id: getRandomCommentId(),
-  avatar: `img/avatar${getRandomInteger(1, 25)}.svg`,
+  avatar: `img/avatar${getRandomInteger(1, MAX_AVATAR_COUNT)}.svg`,
   message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
   name: NAMES[getRandomInteger(0, NAMES.length - 1)],
 });
 
 const createPhotoPost = () => ({
   id: getRandomPhotoId(),
-  url: `photos/${getRandomInteger(1, 6)}.jpg`,
+  url: `photos/${getRandomInteger(1, MAX_COUNT_PHOTO)}.jpg`,
   description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
-  likes: getRandomInteger(15, 200),
+  likes: getRandomInteger(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
   comments: Array.from({ length: getRandomInteger(0, 30) }, createComment),
 });
 
 const photoPost = Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
 
-photoPost();
