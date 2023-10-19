@@ -1,4 +1,4 @@
-import './create-elements';
-import { getPhotoPost } from './create-elements';
+import './data';
+import { getPhotoPost } from './data';
 
 console.log(getPhotoPost());
