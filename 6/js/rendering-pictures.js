@@ -13,7 +13,7 @@ getPicture.forEach (({ url, description, likes, comments }) => {
   pictureElement.querySelector('.picture__img').alt = description;
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
   pictureElement.querySelector('.picture__likes').textContent = likes;
-  pictureList.appendChild(pictureElement);
+  getPictureFragment.appendChild(pictureElement);
 });
 
 pictureList.appendChild(getPictureFragment);
