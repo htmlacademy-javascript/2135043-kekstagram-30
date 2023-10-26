@@ -1,4 +1,4 @@
-import './data';
-import { getPhotoPost } from './data';
+import './rendering-pictures.js';
+import { pictureList } from './rendering-pictures.js';
 
-console.log(getPhotoPost());
+console.log(pictureList);
