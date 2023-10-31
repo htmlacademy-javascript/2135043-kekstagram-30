@@ -74,3 +74,5 @@ const createPhotoPost = () => ({
 const getPhotoPost = () => Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
 
 export { getPhotoPost };
+
+
