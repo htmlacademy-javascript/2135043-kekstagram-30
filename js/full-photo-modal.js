@@ -39,6 +39,8 @@ picturesList.forEach((pictureMini) => {
     fullPhotoModal.querySelector('.social__caption').textContent = pictureMini.querySelector('.picture__img').alt;
     fullPhotoModal.querySelector('.social__comment-total-count').textContent = pictureMini.querySelector('.picture__comments').textContent;
     fullPhotoModal.querySelector('.social__comment-shown-count').textContent = COMMENT_COUNT;
+    const currentId = pictureMini.querySelector('.picture__img').id;
+    getComments(currentId);
   });
 });
 
