@@ -58,7 +58,7 @@ const getRandomCommentId = createUniqIdNumber(1, 1000);
 
 const createComment = () => ({
   id: getRandomCommentId(),
-  avatar: `img/avatar${getRandomInteger(1, MAX_AVATAR_COUNT)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, MAX_AVATAR_COUNT)}.svg`,
   message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
   name: NAMES[getRandomInteger(0, NAMES.length - 1)],
 });
@@ -71,6 +71,8 @@ const createPhotoPost = () => ({
   comments: Array.from({ length: getRandomInteger(0, 30) }, createComment),
 });
 
-const getPhotoPost = () => Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
+const getPhotoPost = Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
 
 export { getPhotoPost };
+
+

@@ -19,5 +19,8 @@ const createUniqIdNumber = (min, max) => {
   };
 };
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 export { getRandomInteger };
 export { createUniqIdNumber };
+export { isEscapeKey };
