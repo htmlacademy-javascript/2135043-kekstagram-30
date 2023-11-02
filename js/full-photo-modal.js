@@ -1,6 +1,6 @@
 import './rendering-pictures.js';
 import { pictureList } from './rendering-pictures.js';
-import { isEscapeKey } from './util.js';
+import { getRandomInteger, isEscapeKey } from './util.js';
 import { getComments } from './rendering-comments.js';
 
 const COMMENT_COUNT = 5;
@@ -39,8 +39,8 @@ picturesList.forEach((pictureMini) => {
     fullPhotoModal.querySelector('.social__caption').textContent = pictureMini.querySelector('.picture__img').alt;
     fullPhotoModal.querySelector('.social__comment-total-count').textContent = pictureMini.querySelector('.picture__comments').textContent;
     fullPhotoModal.querySelector('.social__comment-shown-count').textContent = COMMENT_COUNT;
-    const currentId = pictureMini.querySelector('.picture__img').id;
-    getComments(currentId);
+    //const currentId = pictureMini.querySelector('.picture__img').id;
+    getComments(getRandomInteger(2, 5));
   });
 });
 

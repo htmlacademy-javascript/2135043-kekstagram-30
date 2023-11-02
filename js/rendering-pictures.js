@@ -3,7 +3,7 @@ import { getPhotoPost } from './data.js';
 const pictureList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const getPicture = getPhotoPost();
+const getPicture = getPhotoPost;
 
 const getPictureFragment = document.createDocumentFragment();
 
