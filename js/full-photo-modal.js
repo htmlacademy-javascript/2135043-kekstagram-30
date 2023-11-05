@@ -1,6 +1,6 @@
 import './rendering-pictures.js';
 import { pictureList } from './rendering-pictures.js';
-import { getRandomInteger, isEscapeKey } from './util.js';
+import { isEscapeKey } from './util.js';
 import { getComments } from './rendering-comments.js';
 
 const COMMENT_COUNT = 5;
@@ -19,8 +19,6 @@ function openFullPhotoModal () {
   fullPhotoModal.classList.remove('hidden');
   document.addEventListener('keydown', onModalEscKeydown);
   document.querySelector('body').classList.add('modal-open');
-  document.querySelector('.social__comment-count').classList.add('.hidden');
-  document.querySelector('.comments-loader').classList.add('.hidden');
 }
 
 function closeFullPhotoModal () {
@@ -39,8 +37,8 @@ picturesList.forEach((pictureMini) => {
     fullPhotoModal.querySelector('.social__caption').textContent = pictureMini.querySelector('.picture__img').alt;
     fullPhotoModal.querySelector('.social__comment-total-count').textContent = pictureMini.querySelector('.picture__comments').textContent;
     fullPhotoModal.querySelector('.social__comment-shown-count').textContent = COMMENT_COUNT;
-    //const currentId = pictureMini.querySelector('.picture__img').id;
-    getComments(getRandomInteger(2, 5));
+    const TOTAL_COMMENT_COUNT = pictureMini.querySelector('.picture__img').id;
+    getComments(TOTAL_COMMENT_COUNT);
   });
 });
 

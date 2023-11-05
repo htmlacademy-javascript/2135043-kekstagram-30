@@ -8,7 +8,7 @@ const getComments = (current) => {
 
   const getCommentFragment = document.createDocumentFragment();
 
-  getPhotoPost[current].comments.forEach(({avatar, name, message}) => {
+  getPhotoPost[current].comments.forEach(({ avatar, name, message }) => {
     const commentElement = fullPhotoCommentItem.cloneNode(true);
     commentElement.querySelector('.social__picture').src = avatar;
     commentElement.querySelector('.social__picture').alt = name;

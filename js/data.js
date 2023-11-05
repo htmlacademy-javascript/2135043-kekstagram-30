@@ -52,6 +52,8 @@ const MIN_LIKE_COUNT = 15;
 const MAX_LIKE_COUNT = 200;
 const MAX_AVATAR_COUNT = 6;
 const MAX_COUNT_PHOTO = 25;
+const MIN_COUNT_COMMENT = 0;
+const MAX_COUNT_COMMENT = 30;
 
 const getRandomPhotoId = createUniqIdNumber(1, 25);
 const getRandomCommentId = createUniqIdNumber(1, 1000);
@@ -68,11 +70,11 @@ const createPhotoPost = () => ({
   url: `photos/${getRandomInteger(1, MAX_COUNT_PHOTO)}.jpg`,
   description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
   likes: getRandomInteger(MIN_LIKE_COUNT, MAX_LIKE_COUNT),
-  comments: Array.from({ length: getRandomInteger(0, 30) }, createComment),
+  comments: Array.from({ length: getRandomInteger(MIN_COUNT_COMMENT, MAX_COUNT_COMMENT) }, createComment),
 });
 
 const getPhotoPost = Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
-
+console.log(getPhotoPost);
 export { getPhotoPost };
 
 
