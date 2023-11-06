@@ -73,8 +73,8 @@ const createPhotoPost = () => ({
   comments: Array.from({ length: getRandomInteger(MIN_COUNT_COMMENT, MAX_COUNT_COMMENT) }, createComment),
 });
 
-const getPhotoPost = Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
-console.log(getPhotoPost);
+const getPhotoPost = () => Array.from({ length: MAX_COUNT_PHOTO_POST }, createPhotoPost);
+
 export { getPhotoPost };
 
 
