@@ -1,5 +1,5 @@
-import { renderThumbnails } from './thumbnail';
-import { showPicture } from './full-photo-modal';
+import { renderThumbnails } from './thumbnail.js';
+import { showPicture } from './full-photo-modal.js';
 
 const container = document.querySelector('.pictures');
 
