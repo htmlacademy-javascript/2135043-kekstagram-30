@@ -15,12 +15,13 @@ const pictureCloseButton = pictureForm.querySelector('.img-upload__cancel');
 const form = document.getElementById('upload-select-image');
 const hashtagField = pictureForm.querySelector('.text__hashtags');
 const commentField = pictureForm.querySelector('.text__description');
+const buttonSubmit = pictureForm.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(pictureForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
-});
+}, false);
 
 const showForm = () => {
   pictureUploadContainer.classList.remove('hidden');
@@ -41,7 +42,7 @@ const isTextFieldFocused = () => document.activeElement === hashtagField || docu
 const normalizeTags = (tagString) => tagString
   .trim()
   .split(' ')
-  .filter((tag) => Boolean(tag.length));
+  .filter(Boolean);
 
 const hasValidTags = (value) => normalizeTags(value).every((tag) => VALID_SIMBOLS.test(tag));
 
@@ -67,11 +68,6 @@ const onClosePictureButtonClick = () => {
   closeForm();
 };
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-};
-
 pristine.addValidator(
   hashtagField,
   hasValidCount,
@@ -95,6 +91,16 @@ pristine.addValidator(
   1,
   true
 );
+
+const onFormSubmit = (evt) => {
+  if (!pristine.validate()) {
+    evt.preventDefault();
+    buttonSubmit.disabled = true;
+  } else {
+    pristine.validate();
+    buttonSubmit.disabled = false;
+  }
+};
 
 pictureOpeninput.addEventListener('change', onPictureInputChange);
 pictureCloseButton.addEventListener('click', onClosePictureButtonClick);
