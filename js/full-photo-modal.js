@@ -95,4 +95,4 @@ const showPicture = (pictureData) => {
 closePictureButtonElement.addEventListener('click', onClosePictureButtonClick);
 commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
 
-export { showPicture };
+export { showPicture, bodyElement, onDocumentKeydown };
