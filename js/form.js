@@ -1,4 +1,12 @@
 import { bodyElement } from './full-photo-modal.js';
+/*import {
+  init as initEffect,
+  reset as resetEffect
+} from './nouislider.js';*/
+
+
+import { scalePictureField, onZoomChange, resetScale } from './nouislider.js';
+
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -32,12 +40,11 @@ const showForm = () => {
 const closeForm = () => {
   form.reset();
   pristine.reset();
+  resetScale();
   pictureUploadContainer.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
-
-const isTextFieldFocused = () => document.activeElement === hashtagField || document.activeElement === commentField;
 
 const normalizeTags = (tagString) => tagString
   .trim()
@@ -54,11 +61,19 @@ const hasUniqueTags = (value) => {
 };
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     closeForm();
   }
 }
+
+hashtagField.addEventListener('keydown', (evt) => {
+  evt.stopPropagation();
+});
+
+commentField.addEventListener('keydown', (evt) => {
+  evt.stopPropagation();
+});
 
 const onPictureInputChange = () => {
   showForm();
@@ -102,6 +117,9 @@ const onFormSubmit = (evt) => {
   }
 };
 
+//initEffect();
+//resetEffect();
 pictureOpeninput.addEventListener('change', onPictureInputChange);
 pictureCloseButton.addEventListener('click', onClosePictureButtonClick);
 form.addEventListener('submit', onFormSubmit);
+scalePictureField.addEventListener('click', onZoomChange);
