@@ -28,4 +28,4 @@ const resetScale = () => {
   pictureScalePercent.value = '100%';
 };
 
-export { scalePictureField, onZoomChange, resetScale };
+export { modalElement, scalePictureField, onZoomChange, resetScale };
