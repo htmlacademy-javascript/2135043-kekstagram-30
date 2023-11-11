@@ -1,12 +1,6 @@
 import { bodyElement } from './full-photo-modal.js';
-/*import {
-  init as initEffect,
-  reset as resetEffect
-} from './nouislider.js';*/
-
-
-import { scalePictureField, onZoomChange, resetScale } from './nouislider.js';
-
+import { scalePictureField, onZoomChange, resetScale } from './zoom-scale.js';
+import { init, reset } from './nouislader.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -35,12 +29,14 @@ const showForm = () => {
   pictureUploadContainer.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  init();
 };
 
 const closeForm = () => {
   form.reset();
   pristine.reset();
   resetScale();
+  reset();
   pictureUploadContainer.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -117,8 +113,6 @@ const onFormSubmit = (evt) => {
   }
 };
 
-//initEffect();
-//resetEffect();
 pictureOpeninput.addEventListener('change', onPictureInputChange);
 pictureCloseButton.addEventListener('click', onClosePictureButtonClick);
 form.addEventListener('submit', onFormSubmit);
