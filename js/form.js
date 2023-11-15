@@ -1,6 +1,9 @@
 import { bodyElement } from './full-photo-modal.js';
 import { scalePictureField, onZoomChange, resetScale } from './zoom-scale.js';
 import { init, reset } from './nouislader.js';
+import { sendPicture } from './api.js';
+import { isEscapeKey } from './util.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -17,7 +20,11 @@ const pictureCloseButton = pictureForm.querySelector('.img-upload__cancel');
 const form = document.getElementById('upload-select-image');
 const hashtagField = pictureForm.querySelector('.text__hashtags');
 const commentField = pictureForm.querySelector('.text__description');
-const buttonSubmit = pictureForm.querySelector('.img-upload__submit');
+const submitButton = pictureForm.querySelector('.img-upload__submit');
+
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+};
 
 const pristine = new Pristine(pictureForm, {
   classTo: 'img-upload__field-wrapper',
@@ -57,7 +64,9 @@ const hasUniqueTags = (value) => {
 };
 
 function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape') {
+  const isErrorMessageExists = Boolean(document.querySelector('.error'));
+
+  if (isEscapeKey && !isErrorMessageExists) {
     evt.preventDefault();
     closeForm();
   }
@@ -103,14 +112,27 @@ pristine.addValidator(
   true
 );
 
-const onFormSubmit = (evt) => {
+const sendForm = async (formElement) => {
   if (!pristine.validate()) {
-    evt.preventDefault();
-    buttonSubmit.disabled = true;
-  } else {
-    pristine.validate();
-    buttonSubmit.disabled = false;
+    toggleSubmitButton(true);
+    return;
   }
+
+  try {
+    toggleSubmitButton(true);
+    await sendPicture(new FormData(formElement));
+    toggleSubmitButton(false);
+    closeForm();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+    toggleSubmitButton(false);
+  }
+};
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  sendForm(evt.target);
 };
 
 pictureOpeninput.addEventListener('change', onPictureInputChange);
