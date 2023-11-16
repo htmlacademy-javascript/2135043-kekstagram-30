@@ -121,11 +121,11 @@ const sendForm = async (formElement) => {
   try {
     toggleSubmitButton(true);
     await sendPicture(new FormData(formElement));
-    toggleSubmitButton(false);
     closeForm();
     showSuccessMessage();
   } catch {
     showErrorMessage();
+  } finally {
     toggleSubmitButton(false);
   }
 };
