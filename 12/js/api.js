@@ -11,22 +11,27 @@ const HttpMethod = {
 };
 
 const ErrorText = {
-  GET: 'Не удалось загрузить данные',
-  SEND: 'Ошибка загрузки файла',
+  GET: 'Не удалось загрузить данные.',
+  POST: 'Ошибка отправки формы. Попробуйте ещё раз.',
 };
 
-const request = async (url, method = HttpMethod.GET, body = null) => {
-  const response = await fetch(url, { method, body });
-  if (!response.ok) {
-    throw new Error(ErrorText[method]);
-  }
-  return response.json();
-};
+const request = (route, errorText = ErrorText.GET_DATA, method = HttpMethod.GET, body = null) =>
 
-const loadPictures = async () => request(SERVER_URL + ServerRoute.GET_DATA);
+  fetch(`${SERVER_URL}${route}`, { method, body })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .catch(() => {
+      throw new Error(errorText);
+    });
+
+const loadPictures = async () => request(ServerRoute.GET_DATA);
 
 const sendPicture = async (pictureData) => request(
-  SERVER_URL + ServerRoute.SEND_DATA,
+  ServerRoute.SEND_DATA,
   HttpMethod.POST,
   pictureData,
 );
