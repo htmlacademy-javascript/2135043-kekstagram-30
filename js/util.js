@@ -1,26 +1,19 @@
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
+const REMOVE_MESSAGE_TIMEOUT = 5000;
 
-  return Math.floor(result);
-};
+const errorMessageTemplate = document
+  .querySelector('#data-error')
+  .content
+  .querySelector('.data-error');
 
-const createUniqIdNumber = (min, max) => {
-  const uniqIdArray = [];
+const showErrorMessage = () => {
+  const errorElement = errorMessageTemplate.cloneNode(true);
+  document.body.append(errorElement);
 
-  return () => {
-    let currentIdNumber = getRandomInteger(min, max);
-    while (uniqIdArray.includes(currentIdNumber)) {
-      currentIdNumber = getRandomInteger(min, max);
-    }
-    uniqIdArray.push(currentIdNumber);
-    return currentIdNumber;
-  };
+  setTimeout(() => {
+    errorElement.remove();
+  }, REMOVE_MESSAGE_TIMEOUT);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInteger };
-export { createUniqIdNumber };
-export { isEscapeKey };
+export { isEscapeKey, showErrorMessage };

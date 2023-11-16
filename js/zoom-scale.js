@@ -3,7 +3,7 @@ const buttonBigger = scalePictureField.querySelector('.scale__control--bigger');
 const buttonSmaller = scalePictureField.querySelector('.scale__control--smaller');
 const pictureScalePercent = scalePictureField.querySelector('.scale__control--value');
 const modalElement = document.querySelector('.img-upload');
-const pictureElement = modalElement.querySelector('#keks');
+const pictureElement = modalElement.querySelector('.img-upload__preview img');
 
 let scaleZoom = parseInt(pictureScalePercent.value.replace('%', ''), 10);
 
@@ -28,4 +28,4 @@ const resetScale = () => {
   pictureScalePercent.value = '100%';
 };
 
-export { modalElement, scalePictureField, onZoomChange, resetScale };
+export { pictureElement, modalElement, scalePictureField, onZoomChange, resetScale };

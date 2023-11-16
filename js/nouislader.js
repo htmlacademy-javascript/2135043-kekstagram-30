@@ -1,4 +1,4 @@
-import { modalElement } from './zoom-scale.js';
+import { pictureElement, modalElement } from './zoom-scale.js';
 
 const effectsName = {
   DEFAULT: 'none',
@@ -65,7 +65,6 @@ const effectToSliderOptions = {
   },
 };
 
-const imageElement = modalElement.querySelector('.img-upload__preview img');
 const effectsElement = modalElement.querySelector('.effects');
 const sliderElement = modalElement.querySelector('.effect-level__slider');
 const sliderContainerElement = modalElement.querySelector('.img-upload__effect-level');
@@ -77,12 +76,12 @@ const isDefault = () => chosenEffect === effectsName.DEFAULT;
 
 const setImageStyle = () => {
   if (isDefault()) {
-    imageElement.style.filter = null;
+    pictureElement.style.filter = null;
     return;
   }
   const { value } = effectLevelElement;
   const { style, unit } = effectToFilter[chosenEffect];
-  imageElement.style.filter = `${style}(${value}${unit})`;
+  pictureElement.style.filter = `${style}(${value}${unit})`;
 };
 
 const showSlider = () => {
