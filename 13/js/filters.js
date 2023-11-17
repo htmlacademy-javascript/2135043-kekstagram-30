@@ -1,12 +1,11 @@
 import { renderGallery } from './gallery.js';
-import { debounce } from './util.js';
+import { createUniqIdNumber, debounce } from './util.js';
 
 const filtersElement = document.querySelector('.img-filters');
 const filterForm = document.querySelector('.img-filters__form');
 const defaultButton = filterForm.querySelector('#filter-default');
 const randomButton = filterForm.querySelector('#filter-random');
 const discussedButton = filterForm.querySelector('#filter-discussed');
-
 
 const MAX_RANDOM_INDEX_COUNT = 10;
 
@@ -16,21 +15,15 @@ const Filters = {
   DISCUSSED: 'discussed'
 };
 
-const getRandomIndex = (min, max) => Math.floor(Math.random() * (max - min));
-
-
 const filterHandlers = {
   [Filters.DEFAULT]: (data) => data,
   [Filters.RANDOM]: (data) => {
     const randomIndexList = [];
-    const max = Math.min(MAX_RANDOM_INDEX_COUNT, data.length);
-    while (randomIndexList.length < max) {
-      const index = getRandomIndex(0, data.length);
-      if (!randomIndexList.includes(index)) {
-        randomIndexList.push(index);
-      }
+    const index = createUniqIdNumber(0, data.length - 1);
+    for (let i = 0; i < MAX_RANDOM_INDEX_COUNT; i++) {
+      randomIndexList.push(data[index()]);
     }
-    return randomIndexList.map((index) => data[index]);
+    return randomIndexList;
   },
   [Filters.DISCUSSED]: (data) => [...data].sort((item1, item2) => item2.comments.length - item1.comments.length),
 };
