@@ -15,18 +15,13 @@ const ErrorText = {
   POST: 'Ошибка отправки формы. Попробуйте ещё раз.',
 };
 
-const request = (route, errorText = ErrorText.GET_DATA, method = HttpMethod.GET, body = null) =>
-
-  fetch(`${SERVER_URL}${route}`, { method, body })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-      return response.json();
-    })
-    .catch(() => {
-      throw new Error(errorText);
-    });
+const request = async (route, method = HttpMethod.GET, body = null) => {
+  const response = await fetch(`${SERVER_URL}${route}`, { method, body });
+  if (!response.ok) {
+    throw new Error(ErrorText[method]);
+  }
+  return response.json();
+};
 
 const loadPictures = async () => request(ServerRoute.GET_DATA);
 
