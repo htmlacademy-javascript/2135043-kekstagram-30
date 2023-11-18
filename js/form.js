@@ -54,7 +54,8 @@ const closeForm = () => {
 
 const isValidType = (file) => {
   const fileName = file.name.toLowerCase();
-  return FILE_TYPES.some((it) => fileName.endsWith(it));
+  const fileType = fileName.split('.').pop();
+  return FILE_TYPES.includes(fileType);
 };
 
 const normalizeTags = (tagString) => tagString
