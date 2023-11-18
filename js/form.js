@@ -1,5 +1,5 @@
 import { bodyElement } from './full-photo-modal.js';
-import { scalePictureField, onZoomChange, resetScale } from './zoom-scale.js';
+import { scalePictureField, onZoomChange, resetScale, pictureElement } from './zoom-scale.js';
 import { init, reset } from './nouislader.js';
 import { sendPicture } from './api.js';
 import { isEscapeKey } from './util.js';
@@ -7,6 +7,7 @@ import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const ErrorText = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштегов`,
   NOT_UNIQUE: 'Хэштеги должны быть уникальными',
@@ -15,12 +16,14 @@ const ErrorText = {
 
 const pictureForm = document.querySelector('.img-upload__form');
 const pictureUploadContainer = pictureForm.querySelector('.img-upload__overlay');
-const pictureOpeninput = pictureForm.querySelector('.img-upload__input');
+const pictureOpenInput = pictureForm.querySelector('.img-upload__input');
 const pictureCloseButton = pictureForm.querySelector('.img-upload__cancel');
 const form = document.getElementById('upload-select-image');
 const hashtagField = pictureForm.querySelector('.text__hashtags');
 const commentField = pictureForm.querySelector('.text__description');
 const submitButton = pictureForm.querySelector('.img-upload__submit');
+const effectsPreview = pictureForm.querySelectorAll('.effects__preview');
+const fileChooser = document.querySelector('.img-upload__start input[type=file]');
 
 const toggleSubmitButton = (isDisabled) => {
   submitButton.disabled = isDisabled;
@@ -47,6 +50,11 @@ const closeForm = () => {
   pictureUploadContainer.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
 };
 
 const normalizeTags = (tagString) => tagString
@@ -87,6 +95,18 @@ const onPictureInputChange = () => {
 const onClosePictureButtonClick = () => {
   closeForm();
 };
+
+const onFileInputChange = () => {
+  const file = pictureOpenInput.files[0];
+
+  if (file && isValidType(file)) {
+    pictureElement.src = URL.createObjectURL(file);
+    effectsPreview.forEach((preview) => {
+      preview.style.backgroundImage = `url('${pictureElement.src}')`;
+    });
+  }
+};
+
 
 pristine.addValidator(
   hashtagField,
@@ -135,7 +155,8 @@ const onFormSubmit = (evt) => {
   sendForm(evt.target);
 };
 
-pictureOpeninput.addEventListener('change', onPictureInputChange);
+pictureOpenInput.addEventListener('change', onPictureInputChange);
 pictureCloseButton.addEventListener('click', onClosePictureButtonClick);
 form.addEventListener('submit', onFormSubmit);
 scalePictureField.addEventListener('click', onZoomChange);
+fileChooser.addEventListener('change', onFileInputChange);
