@@ -54,7 +54,8 @@ const closeForm = () => {
 
 const isValidType = (file) => {
   const fileName = file.name.toLowerCase();
-  return FILE_TYPES.some((it) => fileName.endsWith(it));
+  const fileType = fileName.split('.').pop();
+  return FILE_TYPES.includes(fileType);
 };
 
 const normalizeTags = (tagString) => tagString
@@ -100,9 +101,10 @@ const onFileInputChange = () => {
   const file = pictureOpenInput.files[0];
 
   if (file && isValidType(file)) {
-    pictureElement.src = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
+    pictureElement.src = url;
     effectsPreview.forEach((preview) => {
-      preview.style.backgroundImage = `url('${pictureElement.src}')`;
+      preview.style.backgroundImage = `url('${url}')`;
     });
   }
 };
