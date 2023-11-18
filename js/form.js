@@ -101,9 +101,10 @@ const onFileInputChange = () => {
   const file = pictureOpenInput.files[0];
 
   if (file && isValidType(file)) {
-    pictureElement.src = URL.createObjectURL(file);
+    const url = URL.createObjectURL(file);
+    pictureElement.src = url;
     effectsPreview.forEach((preview) => {
-      preview.style.backgroundImage = `url('${pictureElement.src}')`;
+      preview.style.backgroundImage = `url('${url}')`;
     });
   }
 };
