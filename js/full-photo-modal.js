@@ -64,8 +64,8 @@ const onClosePictureButtonClick = () => {
   hidePicture();
 };
 
-function onDocumentKeydown(evt) {
-  if (isEscapeKey) {
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     hidePicture();
   }
