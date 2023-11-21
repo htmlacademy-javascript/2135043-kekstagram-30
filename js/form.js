@@ -12,13 +12,13 @@ const ErrorText = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштегов`,
   NOT_UNIQUE: 'Хэштеги должны быть уникальными',
   INVALID_PATTERN: 'Неверный хэштег',
+  INVALID_COMMENT: 'Длина комментария не может превышать 140 символов',
 };
 
 const pictureForm = document.querySelector('.img-upload__form');
 const pictureUploadContainer = pictureForm.querySelector('.img-upload__overlay');
 const pictureOpenInput = pictureForm.querySelector('.img-upload__input');
 const pictureCloseButton = pictureForm.querySelector('.img-upload__cancel');
-const form = document.getElementById('upload-select-image');
 const hashtagField = pictureForm.querySelector('.text__hashtags');
 const commentField = pictureForm.querySelector('.text__description');
 const submitButton = pictureForm.querySelector('.img-upload__submit');
@@ -35,21 +35,32 @@ const pristine = new Pristine(pictureForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 }, false);
 
+
+const onHashtagFieldChange = () => {
+  toggleSubmitButton(false);
+  pristine.validate();
+};
+
+const onCommentFieldChange = () => {
+  toggleSubmitButton(false);
+  pristine.validate();
+};
+
 const showForm = () => {
   pictureUploadContainer.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  init();
+  hashtagField.addEventListener('change', onHashtagFieldChange);
+  commentField.addEventListener('change', onCommentFieldChange);
 };
 
 const closeForm = () => {
-  form.reset();
-  pristine.reset();
-  resetScale();
-  reset();
   pictureUploadContainer.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  pictureForm.reset();
+  pristine.reset();
+  resetScale();
 };
 
 const isValidType = (file) => {
@@ -75,7 +86,7 @@ const hasUniqueTags = (value) => {
 function onDocumentKeydown(evt) {
   const isErrorMessageExists = Boolean(document.querySelector('.error'));
 
-  if (isEscapeKey && !isErrorMessageExists) {
+  if (isEscapeKey(evt) && !isErrorMessageExists) {
     evt.preventDefault();
     closeForm();
   }
@@ -109,6 +120,15 @@ const onFileInputChange = () => {
   }
 };
 
+const maxCommentLength = (comment) => comment.length <= 140;
+
+pristine.addValidator(
+  commentField,
+  maxCommentLength,
+  ErrorText.INVALID_COMMENT,
+  4,
+  true
+);
 
 pristine.addValidator(
   hashtagField,
@@ -159,6 +179,8 @@ const onFormSubmit = (evt) => {
 
 pictureOpenInput.addEventListener('change', onPictureInputChange);
 pictureCloseButton.addEventListener('click', onClosePictureButtonClick);
-form.addEventListener('submit', onFormSubmit);
+pictureForm.addEventListener('submit', onFormSubmit);
 scalePictureField.addEventListener('click', onZoomChange);
 fileChooser.addEventListener('change', onFileInputChange);
+init();
+reset();
